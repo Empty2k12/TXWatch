@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>TX Watch</title>
+        <script src="https://fb.me/react-15.1.0.js"></script>
+        <script src="https://fb.me/react-dom-15.1.0.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Keep track of Bitcoin transcation confirmation status!">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="icon" sizes="192x192" href="images/BC_Logo_.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="Bitcoin TXWatch">
+        <link rel="apple-touch-icon-precomposed" href="images/BC_Logo_.png">
+        <meta name="msapplication-TileImage" content="images/BC_Logo_.png">
+        <meta name="msapplication-TileColor" content="#3372DF">
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-red.min.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body class="mdl-demo mdl-color-text--grey-700 mdl-base" style="background: #fafafa;">
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header mdl-layout__header--waterfall">
+                <!-- Top row, always visible -->
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title">TXWat.ch</span>
+                    <div class="mdl-layout-spacer"></div>
+                    <nav class="mdl-navigation">
+                        <span class="mdl-navigation__link"></span>
+                    </nav>
+                </div>
+            </header>
+            <main class="mdl-layout__content">
+                <div class="mdl-layout__tab-panel is-active" id="overview">
+                    <div id="example"></div>
+                    <section class="section--footer mdl-color--white mdl-grid">
+                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                            <img class="section__circle-container__circle section__circle--big" src="images/BC_Logo_.png"/>
+                        </div>
+                        <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <h5>Bitcoin Transactions can take a long time to confirm</h5>
+                            This website helps you by allowing you to keep track of confirmations. Just add a transaction to the watch list and recieve notifications upon confirmation changes!
+                        </div>
+                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                            <img class="section__circle-container__circle section__circle--big" src="images/donate-654328_960_720.png"/>
+                        </div>
+                        <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <h5>If you like this service, consider donating!</h5>
+                            We don't show ads or any other form of monetization. Please keep this site running: <b>1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
+                        </div>
+                    </section>
+                </div>
+                <footer class="mdl-mega-footer">
+                    <div class="mdl-mega-footer--bottom-section">
+                        <div class="mdl-logo">
+                            More Information
+                        </div>
+                        <ul class="mdl-mega-footer--link-list">
+                            <li><span id="open-about-dialog">About</span></li>
+                            <li><span id="open-donate-dialog">Donate</span></li>
+                        </ul>
+                    </div>
+                </footer>
+            </main>
+            <dialog class="mdl-dialog" id="about-dialog">
+                <h4 class="mdl-dialog__title">How does this work?</h4>
+                <div class="mdl-dialog__content">
+                    <span>This website checks the status of the transactions on every new block and sends out a notification on a change!</span>
+                    <span>API's used:</span>
+                    <ul>
+                        <li>Blockchain.info Websocket Notifications</li>
+                        <li>Toshi.io Transaction API</li>
+                        <li>Notificationsounds.com Sound</li>
+                    </ul>
+                </div>
+                <div class="mdl-dialog__actions">
+                    <button type="button" class="mdl-button close">Great</button>
+                </div>
+            </dialog>
+            <dialog class="mdl-dialog" id="donate-dialog">
+                <h4 class="mdl-dialog__title">Donate?</h4>
+                <div class="mdl-dialog__content">
+                    <h4>
+                        Donating will help keep this site up!
+                    </h4>
+                    <b>1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
+                    <img src='images/btc_address_qr.png' alt="1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV"/>
+                </div>
+                <div class="mdl-dialog__actions">
+                    <button type="button" class="mdl-button close">I will!</button>
+                </div>
+            </dialog>
+        </div>
+        <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+        <script type="text/babel">
+            var socket;
+            connect();
+            function connect() {
+                socket = new WebSocket('ws://ws.blockchain.info/inv');
+                socket.onopen = function() {
+                    console.log("Connected");
+                    socket.send('{"op":"blocks_sub"}');
+                    socket.send('{"op":"ping_block"}');
+                }
+                socket.onclose = function() {
+                    console.log("Connection closed");
+                    connect();
+               }
+               socket.onerror = function() {
+                   console.log("Could not connect to network");
+                   connect();
+               }
+               setInterval(function () {
+                    socket.send('{"op":"ping_tx"}');
+               }, 10000);
+            }
+
+            var TxWatch = React.createClass({
+                getInitialState: function() {
+                    return {
+                        items: [
+                        ],
+                        lastblock: {
+                            "time": 0,
+                            "displaytime": "0",
+                            "height": 0
+                        }
+                    };
+                },
+                onNewBlock: function(event) {
+                    var lastblock = this.state.lastblock;
+                    lastblock.height = event.x.blockIndex;
+                    lastblock.time = event.x.time;
+                    lastblock.displaytime = new Date(parseInt(event.x.time + "000")).toString();
+                    this.setState({lastblock});
+                    this.updateItems();
+                    setTimeout(this.updateItems, 15000);
+                    setTimeout(this.updateItems, 30000);
+                    setTimeout(this.updateItems, 45000);
+                    setTimeout(this.updateItems, 60000);
+                },
+                addItem: function(hash) {
+                    var items = this.state.items;
+                    var confs = 0;
+                    var btc_transacted = "0";
+                    var time = "0";
+                    items = [{hash, confs, btc_transacted, time}].concat(items);
+                    this.setState({items}, function() {
+                        this.updateItems();
+                    });
+                },
+                updateItems: function() {
+                    var items = this.state.items;
+
+                    var pending = items.map(item => new Promise(resolve => {
+                        checkConfirmation(item.hash, resolve);
+                    }));
+
+                    Promise.all(pending).then(returned_data => returned_data.map((data, i) => {
+                        var item = items[i];
+                        // copy items mutating state is bad
+                        console.log("Check for " + item.hash + " is complete: " + data.confirmations + " Confirmations!");
+                        if((item.confs != -1) && (data.confirmations > item.confs)) {
+                            var audio = new Audio('https://notificationsounds.com/soundfiles/d67d8ab4f4c10bf22aa353e27879133c/file-sounds-859-enough.mp3');
+                            audio.play();
+                        }
+                        return Object.assign({}, item, {
+                            confs: `${data.confirmations}`,
+                            time: `${data.block_time}`,
+                            btc_transacted: `${data.amount / 100000000} BTC (${data.fees / 100000000} Fees)`,
+                            hash: `${item.hash}`
+                        });
+                    })).then(items => this.setState({items}));
+                },
+                removeItem: function (hash) {
+                    var items = this.state.items;
+                    items = items.filter(function (el) {
+                        return el.hash !== hash;
+                    });
+                    this.setState({items});
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <TxWatchWidget addItem={this.addItem} removeItem={this.removeItem} items={this.state.items}/>
+                        </div>
+                    );
+                }
+            });
+
+            var TxWatchWidget = React.createClass({
+                addItem: function(hash) {
+                  this.props.addItem(hash);  
+                },
+                removeHash: function(hash) {
+                    this.props.removeItem(hash);
+                },
+                render: function() {
+                    var createItem = this.props.items.map(function(item) {
+                        return (
+                            <WatchListItem onRemoveClicked={this.removeHash} key={item.hash}>{item}</WatchListItem>
+                        );
+                    }, this);
+                    var loginButton;
+                    if (this.props.items.length > 0) {
+                      loginButton = "";
+                    } else {
+                      loginButton = <InfoListItem/>;
+                    }
+                    return (
+                        <ul>
+                            <TxAddForm onFormSubmit={this.addItem}/>
+                            {createItem}
+                            {loginButton}
+                        </ul>
+                    );
+                }
+            });
+
+            var WatchListItem = React.createClass({
+                onClickedButtonRemove: function() {
+                    this.props.onRemoveClicked(this.props.children.hash);
+                },
+                render: function() {
+                    var color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col not_confirmed";
+                    if((this.props.children.confs > 0) && (this.props.children.confs <= 5)) {
+                        color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col unsafe_confirmed";
+                    } else if(this.props.children.confs >= 6) {
+                        color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col safe_confirmed";
+                    }
+                    var blockchain_link = "https://blockchain.info/tx/" + this.props.children.hash;
+                    var time = (this.props.children.time in window) ? "This transaction has not been confirmed yet!" : this.props.children.time;
+                    return (
+                        <section className="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                            <div className={color} >
+                                <div className="mdl-card__title mdl-card--expand">
+                                    <ul className="demo-list-icon mdl-list">
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">confirmation_number</i>
+                                                <a target="_blank" href={blockchain_link}>{this.props.children.hash}</a>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">date_range</i>
+                                                <span>{time}</span>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">attach_money</i>
+                                                <span>{this.props.children.btc_transacted}</span>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">check</i>
+                                                <span>{this.props.children.confs} Confirmation(s)</span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className="mdl-card__menu">
+                                    <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" onClick={this.onClickedButtonRemove}>
+                                        <i className="material-icons">delete</i>
+                                        <span className="mdl-button__ripple-container"><span className="mdl-ripple is-animating"></span></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    );
+                }
+            });
+            
+            var InfoListItem = React.createClass({
+                render: function() {
+                    return (
+                        <section className="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                            <div className="demo-card-event mdl-card mdl-cell mdl-cell--12-col safe_confirmed">
+                                <div className="mdl-card__title mdl-card--expand">
+                                    <ul className="demo-list-icon mdl-list">
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">info</i>
+                                                <span>Add a Bitcoin Transction ID to the List to get started!</span>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">hearing</i>
+                                                <span>Recieve sound notifications on confirmation change!</span>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">color_lens</i>
+                                                <span>The card will be red on 0 Confirmations, yellow on under 6, and green on over 6 Confirmations!</span>
+                                            </span>
+                                        </li>
+                                        <li className="mdl-list__item">
+                                            <span className="mdl-list__item-primary-content">
+                                                <i className="material-icons mdl-list__item-icon">bug_report</i>
+                                                <span>Send feedback to <a href="mailto:feedback@txwat.ch">feedback@txwat.ch</a></span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    );
+                }
+            });
+
+            var TxAddForm = React.createClass({
+                getInitialState: function () {
+                    return {
+                        value: this.props.value || '',
+                        valid: "disabled"
+                    };
+                },
+                handleSubmit: function(e){
+                    e.preventDefault();
+                    var hash = this.refs.task.value.trim();
+                    if(!hash) {
+                        return;
+                    }
+                    this.refs.task.value = "";
+                    this.props.onFormSubmit(hash);
+                    this.setState({
+                        value: "",
+                        valid: "disabled"
+                    });
+                    return;
+                },
+                validateHash: function(hash) {
+                    var re = /^\w{64}$/;
+                    return re.test(hash);
+                },
+                setValue: function (event) {
+                    this.setState({
+                        value: event.currentTarget.value,
+                        valid: this.validateHash(event.currentTarget.value) ? "" : "disabled"
+                    });
+                },
+                render: function(){
+                    return (
+                        <section className="section--center mdl-grid mdl-grid--no-spacing">
+                            <div className="mdl-cell mdl-cell--12-col">
+                                <form className="search mdl-shadow--2dp" onSubmit={this.handleSubmit}>
+                                    <input type="text" placeholder="Bitcoin Transaction Hash" id="task" ref="task" onChange={this.setValue} value={this.state.value}></input>
+                                    <button type="submit" disabled={this.state.valid}>
+                                        <i className="material-icons md-light search_btn">add</i>
+                                    </button>
+                                </form>
+                            </div>
+                        </section>
+                    );
+                }
+            });
+
+            var txWatch = ReactDOM.render(
+                <TxWatch/>,
+                document.getElementById('example')
+            );
+
+            socket.onmessage = function (event) {
+                var response = JSON.parse(event.data);
+                if(response.op != "utx") {
+                    //console.log("We got a message ", response);
+                    if (response.op == "block") {
+                        txWatch.onNewBlock(response);
+                    }
+                } else {
+                    console.log("PingPong!");
+                }
+            }
+            txWatch.updateItems();
+            
+            function checkConfirmation(hash, callback) {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() { 
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                        var response = JSON.parse(xmlHttp.responseText);
+                        callback(response);
+                    }
+                }
+                xmlHttp.open("GET", "https://bitcoin.toshi.io/api/v0/transactions/" + hash, true);
+                xmlHttp.send(null);
+            }
+            
+            function queryBlockchainData(query, hash, callback) {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() { 
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                        callback(xmlHttp.responseText);
+                    }
+                }
+                xmlHttp.open("GET", query, true);
+                xmlHttp.send(null);
+            }
+        </script>
+        <script>
+            var aboutdialog = document.querySelector('#about-dialog');
+            var aboutshowDialogButton = document.querySelector('#open-about-dialog');
+            if (! aboutdialog.showModal) {
+              dialogPolyfill.registerDialog(aboutdialog);
+            }
+            aboutshowDialogButton.addEventListener('click', function() {
+              aboutdialog.showModal();
+            });
+            aboutdialog.querySelector('.close').addEventListener('click', function() {
+              aboutdialog.close();
+            });
+            
+            var donatedialog = document.querySelector('#donate-dialog');
+            var donateshowDialogButton = document.querySelector('#open-donate-dialog');
+            if (! donatedialog.showModal) {
+              dialogPolyfill.registerDialog(donatedialog);
+            }
+            donateshowDialogButton.addEventListener('click', function() {
+              donatedialog.showModal();
+            });
+            donatedialog.querySelector('.close').addEventListener('click', function() {
+              donatedialog.close();
+            });
+        </script>
+    </body>
+</html>
