@@ -297,3 +297,6 @@ html, body {
 .mdl-demo section.section--footer {
     margin: 56px -8px -8px -8px;
 }
+.mdl-demo .mdl-layout__header-row {
+    padding-left: 20px;
+}

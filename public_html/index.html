@@ -10,13 +10,15 @@
         <meta name="description" content="Keep track of Bitcoin transcation confirmation status!">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
         <meta name="mobile-web-app-capable" content="yes">
-        <link rel="icon" sizes="192x192" href="images/BC_Logo_.png">
+        <link rel="icon" sizes="192x192" href="images/logo256x256.png">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-title" content="Bitcoin TXWatch">
-        <link rel="apple-touch-icon-precomposed" href="images/BC_Logo_.png">
-        <meta name="msapplication-TileImage" content="images/BC_Logo_.png">
+        <link rel="apple-touch-icon-precomposed" href="images/logo256x256.png">
+        <meta name="msapplication-TileImage" content="images/logo256x256.png">
         <meta name="msapplication-TileColor" content="#3372DF">
+        <link rel="shortcut icon" href="images/logo256x256.png" type="image/png" />
+        <link rel="icon" href="images/logo256x256.png" type="image/png" />
         <link rel="manifest" href="manifest.json">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -29,6 +31,7 @@
                 <!-- Top row, always visible -->
                 <div class="mdl-layout__header-row">
                     <!-- Title -->
+                    <img width="48" height="48" src="images/logo256x256.png" style="margin-right: 10px;"/>
                     <span class="mdl-layout-title">TXWat.ch</span>
                     <div class="mdl-layout-spacer"></div>
                     <nav class="mdl-navigation">
@@ -62,8 +65,9 @@
                             More Information
                         </div>
                         <ul class="mdl-mega-footer--link-list">
-                            <li><span id="open-about-dialog">About</span></li>
-                            <li><span id="open-donate-dialog">Donate</span></li>
+                            <li><a id="open-about-dialog">About</a></li>
+                            <li><a id="open-donate-dialog">Donate</a></li>
+                            <li><a href="https://github.com/Empty2k12/TXWatch">Fork this on Github!</a></li>
                         </ul>
                     </div>
                 </footer>
@@ -120,7 +124,7 @@
                     socket.send('{"op":"ping_tx"}');
                }, 10000);
             }
-
+            notify("Thanks for enabling notifications!", false);
             var TxWatch = React.createClass({
                 getInitialState: function() {
                     return {
@@ -140,7 +144,9 @@
 
                     while(i--) {
                         var hash = localStorage.getItem(keys[i]);
-                        items = [{hash, confs, time}].concat(items);
+                        if(validateHash(hash)) {
+                            items = [{hash, confs, time}].concat(items);
+                        }
                     }
                     this.setState({items}, function() {
                         this.updateItems();
@@ -182,6 +188,8 @@
                         if((item.confs != -1) && (confs > item.confs)) {
                             var audio = new Audio('https://notificationsounds.com/soundfiles/d67d8ab4f4c10bf22aa353e27879133c/file-sounds-859-enough.mp3');
                             audio.play();
+                            
+                            notify("Transaction " + item.hash + " now has " + confs + " Confirmations!", true);
                         }
                         return Object.assign({}, item, {
                             confs: `${confs}`,
@@ -346,14 +354,10 @@
                     });
                     return;
                 },
-                validateHash: function(hash) {
-                    var re = /^\w{64}$/;
-                    return re.test(hash);
-                },
                 setValue: function (event) {
                     this.setState({
                         value: event.currentTarget.value,
-                        valid: this.validateHash(event.currentTarget.value) ? "" : "disabled"
+                        valid: validateHash(event.currentTarget.value) ? "" : "disabled"
                     });
                 },
                 render: function(){
@@ -410,6 +414,23 @@
                 }
                 xmlHttp.open("GET", query, true);
                 xmlHttp.send(null);
+            }
+            
+            function notify(text, doit) {
+                if(localStorage.getItem("disabledNotifications") != true) {
+                    Notification.requestPermission(function (permission) {
+                        if (permission === "granted" && doit == true) {
+                            var notification = new Notification("TXWatch", {body: text, icon: "https://txwat.ch/images/logo256x256.png"});
+                        } else {
+                            localStorage.setItem("disabledNotifications", true);
+                        }
+                    });
+                }
+            }
+            
+            function validateHash(hash) {
+                var re = /^\w{64}$/;
+                return re.test(hash);
             }
         </script>
         <script>
