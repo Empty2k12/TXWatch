@@ -22,7 +22,7 @@
         <link rel="manifest" href="manifest.json">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-red.min.css">
+        <link rel="stylesheet" href="css/material.indigo-red.min.css">
         <link rel="stylesheet" href="styles.css">
     </head>
     <body class="mdl-demo mdl-color-text--grey-700 mdl-base" style="background: #fafafa;">
@@ -40,66 +40,39 @@
                 </div>
             </header>
             <main class="mdl-layout__content">
-                <div class="mdl-layout__tab-panel is-active" id="overview">
-                    <div id="example"></div>
-                    <section class="section--footer mdl-color--white mdl-grid">
-                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                            <img class="section__circle-container__circle section__circle--big" src="images/BC_Logo_.png"/>
-                        </div>
-                        <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                            <h5>Bitcoin Transactions can take a long time to confirm</h5>
-                            This website helps you by allowing you to keep track of confirmations. Just add a transaction to the watch list and recieve notifications upon confirmation changes!
-                        </div>
-                        <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                            <img class="section__circle-container__circle section__circle--big" src="images/donate-654328_960_720.png"/>
-                        </div>
-                        <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                            <h5>If you like this service, consider donating!</h5>
-                            We don't show ads or any other form of monetization. Please keep this site running: <b>1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
-                        </div>
-                    </section>
+                <div id="example">
                 </div>
+                <section class="section--footer mdl-color--white mdl-grid">
+                    <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                        <img class="section__circle-container__circle section__circle--big" src="images/BC_Logo_.png"/>
+                    </div>
+                    <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                        <h5>Bitcoin Transactions can take a long time to confirm</h5>
+                        This website helps you by allowing you to keep track of confirmations. Just add a transaction to the watch list and recieve notifications upon confirmation changes!
+                    </div>
+                    <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                        <img class="section__circle-container__circle section__circle--big" src="images/donate-654328_960_720.png"/>
+                    </div>
+                    <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                        <h5>If you like this service, consider donating!</h5>
+                        We don't show ads or any other form of monetization. Please keep this site running:
+                        <b id="donate">1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
+                        <span class="mdl-tooltip" for="donate">
+                            <img src="images/btc_address_qr.png" width="150" height="150">
+                        </span>
+                    </div>
+                </section>
                 <footer class="mdl-mega-footer">
                     <div class="mdl-mega-footer--bottom-section">
                         <div class="mdl-logo">
-                            More Information
+                            &copy; 2016 Gero Gerke
                         </div>
                         <ul class="mdl-mega-footer--link-list">
-                            <li><a id="open-about-dialog">About</a></li>
-                            <li><a id="open-donate-dialog">Donate</a></li>
                             <li><a href="https://github.com/Empty2k12/TXWatch">Fork this on Github!</a></li>
                         </ul>
                     </div>
                 </footer>
             </main>
-            <dialog class="mdl-dialog" id="about-dialog">
-                <h4 class="mdl-dialog__title">How does this work?</h4>
-                <div class="mdl-dialog__content">
-                    <span>This website checks the status of the transactions on every new block and sends out a notification on a change!</span>
-                    <span>API's used:</span>
-                    <ul>
-                        <li>Blockchain.info Websocket Notifications</li>
-                        <li>Blockchain.info Transaction API</li>
-                        <li>Notificationsounds.com Sound</li>
-                    </ul>
-                </div>
-                <div class="mdl-dialog__actions">
-                    <button type="button" class="mdl-button close">Great</button>
-                </div>
-            </dialog>
-            <dialog class="mdl-dialog" id="donate-dialog">
-                <h4 class="mdl-dialog__title">Donate?</h4>
-                <div class="mdl-dialog__content">
-                    <h4>
-                        Donating will help keep this site up!
-                    </h4>
-                    <b>1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
-                    <img src='images/btc_address_qr.png' alt="1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV"/>
-                </div>
-                <div class="mdl-dialog__actions">
-                    <button type="button" class="mdl-button close">I will!</button>
-                </div>
-            </dialog>
         </div>
         <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
         <script type="text/babel">
@@ -125,6 +98,7 @@
                }, 10000);
             }
             notify("Thanks for enabling notifications!", false);
+            
             var TxWatch = React.createClass({
                 getInitialState: function() {
                     return {
@@ -208,9 +182,7 @@
                 },
                 render: function() {
                     return (
-                        <div>
-                            <TxWatchWidget addItem={this.addItem} removeItem={this.removeItem} items={this.state.items}/>
-                        </div>
+                        <TxWatchWidget addItem={this.addItem} removeItem={this.removeItem} items={this.state.items}/>
                     );
                 }
             });
@@ -235,11 +207,11 @@
                       loginButton = <InfoListItem/>;
                     }
                     return (
-                        <ul>
+                        <div className="mdl-grid section--center">
                             <TxAddForm onFormSubmit={this.addItem}/>
                             {createItem}
                             {loginButton}
-                        </ul>
+                        </div>
                     );
                 }
             });
@@ -249,39 +221,37 @@
                     this.props.onRemoveClicked(this.props.children.hash);
                 },
                 render: function() {
-                    var color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col not_confirmed";
+                    var color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col not_confirmed";
                     if((this.props.children.confs > 0) && (this.props.children.confs <= 5)) {
-                        color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col unsafe_confirmed";
+                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col unsafe_confirmed";
                     } else if(this.props.children.confs >= 6) {
-                        color = "demo-card-event mdl-card mdl-cell mdl-cell--12-col safe_confirmed";
+                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col safe_confirmed";
                     }
                     var blockchain_link = "https://blockchain.info/tx/" + this.props.children.hash;
                     var time = (this.props.children.time in window) ? "This transaction has not been confirmed yet!" : this.props.children.time;
                     return (
-                        <section className="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                            <div className={color} >
-                                <div className="mdl-card__title mdl-card--expand">
-                                    <ul className="demo-list-icon mdl-list">
-                                        <li className="mdl-list__item">
-                                            <span className="mdl-list__item-primary-content">
-                                                <i className="material-icons mdl-list__item-icon">confirmation_number</i>
-                                                <a target="_blank" href={blockchain_link}>{this.props.children.hash}</a>
-                                            </span>
-                                        </li>
-                                        <li className="mdl-list__item">
-                                            <span className="mdl-list__item-primary-content">
-                                                <i className="material-icons mdl-list__item-icon">date_range</i>
-                                                <span>{time}</span>
-                                            </span>
-                                        </li>
-                                        <li className="mdl-list__item">
-                                            <span className="mdl-list__item-primary-content">
-                                                <i className="material-icons mdl-list__item-icon">check</i>
-                                                <span>{this.props.children.confs} Confirmation(s)</span>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
+                        <section className={color}>
+                            <div className="mdl-card__title mdl-card--expand">
+                                <ul className="demo-list-icon mdl-list">
+                                    <li className="mdl-list__item">
+                                        <span className="mdl-list__item-primary-content">
+                                            <i className="material-icons mdl-list__item-icon">confirmation_number</i>
+                                            <a className="word_break" target="_blank" href={blockchain_link}>{this.props.children.hash}</a>
+                                        </span>
+                                    </li>
+                                    <li className="mdl-list__item">
+                                        <span className="mdl-list__item-primary-content">
+                                            <i className="material-icons mdl-list__item-icon">date_range</i>
+                                            <span className="word_break">{time}</span>
+                                        </span>
+                                    </li>
+                                    <li className="mdl-list__item">
+                                        <span className="mdl-list__item-primary-content">
+                                            <i className="material-icons mdl-list__item-icon">check</i>
+                                            <span className="word_break">{this.props.children.confs} Confirmation(s)</span>
+                                        </span>
+                                    </li>
+                                </ul>
                                 <div className="mdl-card__menu">
                                     <button className="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" onClick={this.onClickedButtonRemove}>
                                         <i className="material-icons">delete</i>
@@ -297,32 +267,32 @@
             var InfoListItem = React.createClass({
                 render: function() {
                     return (
-                        <section className="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                            <div className="demo-card-event mdl-card mdl-cell mdl-cell--12-col safe_confirmed">
+                        <section className="mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+                            <div className="demo-card-event mdl-card safe_confirmed">
                                 <div className="mdl-card__title mdl-card--expand">
                                     <ul className="demo-list-icon mdl-list">
                                         <li className="mdl-list__item">
                                             <span className="mdl-list__item-primary-content">
                                                 <i className="material-icons mdl-list__item-icon">info</i>
-                                                <span>Add a Bitcoin Transction ID to the List to get started!</span>
+                                                <span className="word_break">Add a Bitcoin Transction ID to the List to get started!</span>
                                             </span>
                                         </li>
                                         <li className="mdl-list__item">
                                             <span className="mdl-list__item-primary-content">
                                                 <i className="material-icons mdl-list__item-icon">hearing</i>
-                                                <span>Recieve sound notifications on confirmation change!</span>
+                                                <span className="word_break">Recieve sound notifications on confirmation change!</span>
                                             </span>
                                         </li>
                                         <li className="mdl-list__item">
                                             <span className="mdl-list__item-primary-content">
                                                 <i className="material-icons mdl-list__item-icon">color_lens</i>
-                                                <span>The card will be red on 0 Confirmations, yellow on under 6, and green on over 6 Confirmations!</span>
+                                                <span className="word_break">The card will be red on 0 Confirmations, yellow on 1+ Confirmations, and green 6+ Confirmations!</span>
                                             </span>
                                         </li>
                                         <li className="mdl-list__item">
                                             <span className="mdl-list__item-primary-content">
                                                 <i className="material-icons mdl-list__item-icon">bug_report</i>
-                                                <span>Send feedback to <a href="mailto:feedback@txwat.ch">feedback@txwat.ch</a></span>
+                                                <span className="word_break">Send feedback to <a href="mailto:feedback@txwat.ch">feedback@txwat.ch</a></span>
                                             </span>
                                         </li>
                                     </ul>
@@ -362,15 +332,13 @@
                 },
                 render: function(){
                     return (
-                        <section className="section--center mdl-grid mdl-grid--no-spacing">
-                            <div className="mdl-cell mdl-cell--12-col">
-                                <form className="search mdl-shadow--2dp" onSubmit={this.handleSubmit}>
-                                    <input type="text" placeholder="Bitcoin Transaction Hash" id="task" ref="task" onChange={this.setValue} value={this.state.value}></input>
-                                    <button type="submit" disabled={this.state.valid}>
-                                        <i className="material-icons md-light search_btn">add</i>
-                                    </button>
-                                </form>
-                            </div>
+                        <section className="mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+                            <form className="search" onSubmit={this.handleSubmit}>
+                                <input type="text" placeholder="Bitcoin Transaction Hash" id="task" ref="task" onChange={this.setValue} value={this.state.value}></input>
+                                <button type="submit" disabled={this.state.valid}>
+                                    <i className="material-icons md-light search_btn">add</i>
+                                </button>
+                            </form>
                         </section>
                     );
                 }
@@ -432,31 +400,6 @@
                 var re = /^\w{64}$/;
                 return re.test(hash);
             }
-        </script>
-        <script>
-            var aboutdialog = document.querySelector('#about-dialog');
-            var aboutshowDialogButton = document.querySelector('#open-about-dialog');
-            if (! aboutdialog.showModal) {
-              dialogPolyfill.registerDialog(aboutdialog);
-            }
-            aboutshowDialogButton.addEventListener('click', function() {
-              aboutdialog.showModal();
-            });
-            aboutdialog.querySelector('.close').addEventListener('click', function() {
-              aboutdialog.close();
-            });
-            
-            var donatedialog = document.querySelector('#donate-dialog');
-            var donateshowDialogButton = document.querySelector('#open-donate-dialog');
-            if (! donatedialog.showModal) {
-              dialogPolyfill.registerDialog(donatedialog);
-            }
-            donateshowDialogButton.addEventListener('click', function() {
-              donatedialog.showModal();
-            });
-            donatedialog.querySelector('.close').addEventListener('click', function() {
-              donatedialog.close();
-            });
         </script>
     </body>
 </html>

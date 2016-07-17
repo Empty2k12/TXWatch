@@ -1,57 +1,7 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
     margin: 0;
     padding: 0;
-}
-.mdl-demo .mdl-layout__header-row {
-    padding-left: 40px;
-}
-.mdl-demo .mdl-layout.is-small-screen .mdl-layout__header-row h3 {
-    font-size: inherit;
-}
-.mdl-demo .mdl-layout__tab-bar-button {
-    display: none;
-}
-.mdl-demo .mdl-layout.is-small-screen .mdl-layout__tab-bar .mdl-button {
-    display: none;
-}
-.mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar,
-.mdl-demo .mdl-layout:not(.is-small-screen) .mdl-layout__tab-bar-container {
-    overflow: visible;
-}
-.mdl-demo .mdl-layout__tab-bar-container {
-    height: 64px;
-}
-.mdl-demo .mdl-layout__tab-bar {
-    padding: 0;
-    padding-left: 16px;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-}
-.mdl-demo .mdl-layout__tab-bar .mdl-layout__tab {
-    height: 64px;
-    line-height: 64px;
-}
-.mdl-demo .mdl-layout__tab-bar .mdl-layout__tab.is-active::after {
-    background-color: white;
-    height: 4px;
 }
 .mdl-demo main > .mdl-layout__tab-panel {
     padding: 8px;
@@ -66,9 +16,6 @@ html, body {
     -ms-flex-direction: column;
     flex-direction: column;
 }
-.mdl-demo .mdl-card > * {
-    height: auto;
-}
 .mdl-demo .mdl-card .mdl-card__supporting-text {
     margin: 40px;
     -webkit-flex-grow: 1;
@@ -78,43 +25,9 @@ html, body {
     color: inherit;
     width: calc(100% - 80px);
 }
-.mdl-demo.mdl-demo .mdl-card__supporting-text h4 {
-    margin-top: 0;
-    margin-bottom: 20px;
-}
-.mdl-demo .mdl-card__actions {
-    margin: 0;
-    padding: 4px 40px;
-    color: inherit;
-}
-.mdl-demo .mdl-card__actions a {
-    color: #00BCD4;
-    margin: 0;
-}
-.mdl-demo .mdl-card__actions a:hover,
-.mdl-demo .mdl-card__actions a:active {
-    color: inherit;
-    background-color: transparent;
-}
-.mdl-demo .mdl-card__supporting-text + .mdl-card__actions {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-.mdl-demo #add {
-    position: absolute;
-    right: 40px;
-    top: 36px;
-    z-index: 999;
-}
-
-.mdl-demo .mdl-layout__content section:not(:last-of-type) {
-    position: relative;
-    margin-bottom: 48px;
-}
-.mdl-demo section.section--center {
+.section--center {
     max-width: 860px;
-}
-.mdl-demo #features section.section--center {
-    max-width: 620px;
+    margin-top: 16px;
 }
 .mdl-demo section > header{
     display: -webkit-flex;
@@ -126,9 +39,6 @@ html, body {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
-}
-.mdl-demo section > .section__play-btn {
-    min-height: 200px;
 }
 .mdl-demo section > header > .material-icons {
     font-size: 3rem;
@@ -195,46 +105,11 @@ html, body {
     padding: 64px 0;
     margin: 0 -8px -8px -8px;
 }
-.mdl-demo section.section--center .section__text:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0,.13);
-}
-.mdl-demo .mdl-card .mdl-card__supporting-text > h3:first-child {
-    margin-bottom: 24px;
-}
-.mdl-demo .mdl-layout__tab-panel:not(#overview) {
-    background-color: white;
-}
 .mdl-demo #features section {
     margin-bottom: 72px;
 }
 .mdl-demo #features h4, #features h5 {
     margin-bottom: 16px;
-}
-.mdl-demo .toc {
-    border-left: 4px solid #C1EEF4;
-    margin: 24px;
-    padding: 0;
-    padding-left: 8px;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-}
-.mdl-demo .toc h4 {
-    font-size: 0.9rem;
-    margin-top: 0;
-}
-.mdl-demo .toc a {
-    color: #4DD0E1;
-    text-decoration: none;
-    font-size: 16px;
-    line-height: 28px;
-    display: block;
-}
-.mdl-demo .mdl-menu__container {
-    z-index: 99;
 }
 .demo-card-event.mdl-card i, .demo-card-event.mdl-card span, .demo-card-event.mdl-card a {
     color: white;
@@ -254,23 +129,8 @@ html, body {
 .demo-card-event.mdl-card.unsafe_confirmed > .mdl-card__actions {
     border-color: rgba(0, 0, 0, 0.3);
 }
-.mdl-demo .mdl-card__actions {
-    padding: 4px 16px;
-}
-.mdl-switch.is-checked .mdl-switch__track {
-    background: rgba(255,82,82,.5);
-}
-.mdl-switch.is-checked .mdl-switch__thumb {
-    background: rgb(255,82,82);
-}
-.mdl-list {
-    padding: 8px 0 8px 0;
-}
 .mdl-color--primary {
     background: #547bc0 !important;
-}
-.mdl-demo .mdl-layout__content section:not(:last-of-type) {
-    margin-bottom: 24px;
 }
 .search button {
     width: 48px;
@@ -297,6 +157,140 @@ html, body {
 .mdl-demo section.section--footer {
     margin: 56px -8px -8px -8px;
 }
+.word_break {
+    word-break: break-all;
+}
+.mdl-demo .mdl-layout__content section:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+.mdl-card {
+    width: 100%;
+}
+@media (max-width: 839px) and (min-width: 480px) {
+    .mdl-cell {
+        margin: 0;
+    }
+}
+
+html, body {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.mdl-demo .mdl-layout__header-row {
+    padding-left: 40px;
+}
+undefined.mdl-demo .mdl-card {
+    height: auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.mdl-demo .mdl-card > * {
+    height: auto;
+}
+undefined
+.mdl-demo .mdl-layout__content section:not(:last-of-type) {
+    position: relative;
+    margin-bottom: 0;
+}
+.section--center {
+    max-width: 860px;
+    margin-top: 16px;
+}
+undefined.mdl-demo section .section__text {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding-top: 8px;
+}
+.mdl-demo section .section__text h5 {
+    font-size: inherit;
+    margin: 0;
+    margin-bottom: 0.5em;
+}
+undefined.mdl-demo section .section__circle-container > .section__circle-container__circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    margin: 8px 0;
+}
+.mdl-demo section.section--footer .section__circle--big {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    margin: 8px 32px;
+}
+undefined.mdl-demo section.section--footer {
+    padding: 64px 0;
+    margin: 0 -8px -8px -8px;
+}
+undefined.demo-card-event.mdl-card i, .demo-card-event.mdl-card span, .demo-card-event.mdl-card a {
+    color: white;
+}
+.demo-card-event.mdl-card.safe_confirmed {
+    background: #4CAF50;
+}
+.demo-card-event.mdl-card.not_confirmed {
+    background: #F44336;
+}
+.demo-card-event.mdl-card.unsafe_confirmed {
+    background: #FFEB3B;
+}
+.demo-card-event.mdl-card.unsafe_confirmed i, .demo-card-event.mdl-card.unsafe_confirmed span, .demo-card-event.mdl-card.unsafe_confirmed a {
+    color: black;
+}
+.demo-card-event.mdl-card.unsafe_confirmed > .mdl-card__actions {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+undefined.mdl-list {
+    padding: 8px 0 8px 0;
+}
+undefined.search button {
+    width: 48px;
+    margin-left: -50px;
+    position: relative;
+    top: 6px;
+    cursor: pointer;
+    bottom: 0;
+    background: transparent;
+    border: none;
+}
+.search input {
+    background: #fff;
+    height: 44px;
+    padding: 0 22px;
+    border-radius: 2px 2px 2px 2px;
+    border: 0;
+    outline: 0;
+    color: #757575;
+    box-sizing: border-box;
+    font-size: 1em;
+    width: 100%;
+}
+.mdl-demo section.section--footer {
+    margin: 56px -8px -8px -8px;
+}
 .mdl-demo .mdl-layout__header-row {
     padding-left: 20px;
+}
+.word_break {
+    word-break: break-all;
+}
+.mdl-demo .mdl-layout__content section:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+.mdl-card {
+    width: 100%;
+}
+@media (max-width: 839px) and (min-width: 480px) {
+    .mdl-cell {
+        margin: 0;
+    }
 }
