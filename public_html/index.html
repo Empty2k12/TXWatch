@@ -2,12 +2,13 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>TX Watch</title>
+        <title>TXWatch - Bitcoin Confirmation Notifications</title>
         <script src="https://fb.me/react-15.1.0.js"></script>
         <script src="https://fb.me/react-dom-15.1.0.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Keep track of Bitcoin transcation confirmation status!">
+        <meta name="description" content="Keep track of Bitcoin transaction confirmation status!">
+        <meta name="keywords" content="Bitcoin, Transaction, Confirmation, Notification, Sound">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="icon" sizes="192x192" href="images/logo256x256.png">
@@ -48,7 +49,7 @@
                     </div>
                     <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
                         <h5>Bitcoin Transactions can take a long time to confirm</h5>
-                        This website helps you by allowing you to keep track of confirmations. Just add a transaction to the watch list and recieve notifications upon confirmation changes!
+                        With this service it is very easy to keep track of Bitcoin transaction confirmations! Just add the transaction to the list and get a sound notification when it is confirmed!
                     </div>
                     <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
                         <img class="section__circle-container__circle section__circle--big" src="images/donate-654328_960_720.png"/>
@@ -150,6 +151,9 @@
                         this.updateItems();
                     });
                     ga('send', 'event', 'Hash', 'added');
+                    woopra.track("hash", {
+                        added: "true"
+                    });
                 },
                 updateItems: function() {
                     var items = this.state.items;
@@ -165,13 +169,16 @@
                         } else {
                             var confs = (this.state.lastblock.height - data.block_height + 1);
                         }
-                        if((item.confs != -1) && (confs > item.confs)) {
+                        if((item.confs != -1) && (confs > item.confs) && (confs <= 6)) {
                             var audio = new Audio('https://notificationsounds.com/soundfiles/d67d8ab4f4c10bf22aa353e27879133c/file-sounds-859-enough.mp3');
                             audio.play();
                             
                             notify("Transaction " + item.hash + " now has " + confs + " Confirmations!", true);
                             
                             ga('send', 'event', 'Notification', 'displayed');
+                            woopra.track("notification", {
+                                displayed: "true"
+                            });
                         }
                         return Object.assign({}, item, {
                             confs: `${confs}`,
@@ -188,6 +195,9 @@
                     localStorage.removeItem(hash);
                     this.setState({items});
                     ga('send', 'event', 'Hash', 'removed');
+                    woopra.track("hash", {
+                        removed: "true"
+                    });
                 },
                 render: function() {
                     return (
@@ -424,6 +434,15 @@
 
             ga('create', 'UA-80820197-1', 'auto');
             ga('send', 'pageview');
+            
+            (function(){
+                    var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+            })("woopra");
+
+            woopra.config({
+                domain: 'txwat.ch'
+            });
+            woopra.track();
         </script>
     </body>
 </html>

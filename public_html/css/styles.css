@@ -293,4 +293,7 @@ undefined.search button {
     .mdl-cell {
         margin: 0;
     }
+    .mdl-cell--12-col, .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {
+        width: calc(100%);
+    }
 }
