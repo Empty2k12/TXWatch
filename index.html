@@ -6,6 +6,7 @@
         <script src="https://fb.me/react-15.1.0.js"></script>
         <script src="https://fb.me/react-dom-15.1.0.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+        <script src="js/libs/dialog-polyfill/dialog-polyfill.js"></script>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="description" content="Keep track of Bitcoin transaction confirmation status!">
         <meta name="keywords" content="Bitcoin, Transaction, Confirmation, Notification, Sound">
@@ -25,6 +26,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-red.min.css">
         <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/dialog-polyfill.css">
     </head>
     <body class="mdl-demo mdl-color-text--grey-700 mdl-base" style="background: #fafafa;">
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -42,44 +44,105 @@
             </header>
             <main class="mdl-layout__content">
                 <div id="example">
-                </div>
-                <section class="section--footer mdl-color--white mdl-grid">
-                    <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                        <img class="section__circle-container__circle section__circle--big" src="images/BC_Logo_.png"/>
-                    </div>
-                    <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                        <h5>Bitcoin Transactions can take a long time to confirm</h5>
-                        With this service it is very easy to keep track of Bitcoin transaction confirmations! Just add the transaction to the list and get a sound notification when it is confirmed!
-                    </div>
-                    <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
-                        <img class="section__circle-container__circle section__circle--big" src="images/donate-654328_960_720.png"/>
-                    </div>
-                    <div class="section__text mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-                        <h5>If you like this service, consider donating!</h5>
-                        We don't show ads or any other form of monetization. Please keep this site running:
-                        <b id="donate">1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</b>
-                        <span class="mdl-tooltip" for="donate">
-                            <img src="images/btc_address_qr.png" width="150" height="150">
-                        </span>
-                    </div>
-                </section>
-                <footer class="mdl-mega-footer">
-                    <div class="mdl-mega-footer--bottom-section">
-                        <div class="mdl-logo">
-                            &copy; 2016 Gero Gerke
-                        </div>
-                        <ul class="mdl-mega-footer--link-list">
-                            <li><a href="https://github.com/Empty2k12/TXWatch">Fork this on Github!</a></li>
-                            <li>
-                                <span>
-                                    This Website uses Google Analytics to track actions on the page. No transaction hashes are tracked!
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </footer>
+                </div>		
+				<footer>
+					<div class="mdl-mini-footer footer-top">
+						<div class="mdl-mini-footer__left-section">
+							<p class="line1">Bitcoin blocks are running at full capacity.</p>
+							<p class="line2">TXWatch notifies you when your transaction has confirmed.</p>
+						</div>
+						<div class="mdl-mini-footer__right-section">
+							<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+								What can I do?
+							</button>
+						</div>
+					</div>
+					<div class="mdl-mini-footer footer-bottom">
+						<div class="mdl-mini-footer__left-section">
+							<div class="mdl-logo txwatch-logo"></div>
+						</div>
+						<div class="mdl-mini-footer__right-section">
+							<ul class="mdl-mini-footer__link-list">
+								<li>
+									<a href="https://gerogerke.de/" target="_blank">Made with &hearts; by Gero Gerke</a>
+								</li>
+								<li>
+									<a id="show-donate">Donate</a>
+								</li>
+								<li>
+									<a id="show-privacy">Privacy</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</footer>
             </main>
         </div>
+		  <dialog class="mdl-dialog donate-dialog">
+			<h4 class="mdl-dialog__title">Support hosting and development!</h4>
+			<div class="mdl-dialog__content">
+			  <p>
+				<h5>Please donate to keep this project alive:<h5>
+				<ul>
+					<li id="donate-btc">BTC: 1Gero3TxAbZq7qxuRujNyJJPX9srkaxuFV</li>
+					<li id="donate-eth">ETH: 0xfB5B676F2CAfeE8aA8ADfB083F7D6002A3B6aA58</li>
+					<li id="donate-dsh">Dash: XexoyMTh95Zc5nVUhht4J9gLuSWmLzpvSj</li>
+				</ul>
+				<span class="mdl-tooltip" for="donate-btc">
+					<img src="images/btc_address_qr.png" width="175" height="175">
+				</span>
+				<span class="mdl-tooltip" for="donate-eth">
+					<img src="images/ether_qrcode.png" width="175" height="175">
+				</span>
+				<span class="mdl-tooltip" for="donate-dsh">
+					<img src="images/dash_qrcode.png" width="175" height="175">
+				</span>
+				<h5>All donations will be used to pay for hosting and development costs!</h5>
+				<h5>Thank you!</h5>
+			  </p>
+			</div>
+			<div class="mdl-dialog__actions">
+			  <button type="button" class="mdl-button close">Close</button>
+			</div>
+		  </dialog>
+		  <dialog class="mdl-dialog privacy-dialog">
+			<h4 class="mdl-dialog__title">Privacy</h4>
+			<div class="mdl-dialog__content">
+			  <p>
+				<h5>We take privacy seriously: Your connection to TXWatch is End-to-End SSL Encrypted and all checking of hash functions happens on the client.<h5>
+				<h5>TXWatch uses Google Analytics to track anonymized data which cannot be used to identify you. This data is only used for getting insights on usage of TXWatch.<h5>
+				<h5>TXWatch does not store transaction hashes.<h5>
+			  </p>
+			</div>
+			<div class="mdl-dialog__actions">
+			  <button type="button" class="mdl-button close">Close</button>
+			</div>
+		  </dialog>
+		  <script>
+			var dialog = document.querySelector('.donate-dialog');
+			var showDialogButton = document.querySelector('#show-donate');
+			if (! dialog.showModal) {
+			  dialogPolyfill.registerDialog(dialog);
+			}
+			showDialogButton.addEventListener('click', function() {
+			  dialog.showModal();
+			});
+			dialog.querySelector('.close').addEventListener('click', function() {
+			  dialog.close();
+			});
+			
+			var privacyDialog = document.querySelector('.privacy-dialog');
+			var showPrivacyDialogButton = document.querySelector('#show-privacy');
+			if (! privacyDialog.showModal) {
+			  dialogPolyfill.registerDialog(privacyDialog);
+			}
+			showPrivacyDialogButton.addEventListener('click', function() {
+			  privacyDialog.showModal();
+			});
+			privacyDialog.querySelector('.close').addEventListener('click', function() {
+			  privacyDialog.close();
+			});
+		  </script>
         <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
         <script type="text/babel">
             var socket;
@@ -143,8 +206,8 @@
                 },
                 addItem: function(hash) {
                     var items = this.state.items;
-                    var confs = 0;
-                    var time = "0";
+                    var confs = "█ ██████████";
+                    var time = "██████ ███████████ ███████████████ ███████ █████████";
                     items = [{hash, confs, time}].concat(items);
                     localStorage.setItem(hash, hash);
                     this.setState({items}, function() {
@@ -240,11 +303,13 @@
                     this.props.onRemoveClicked(this.props.children.hash);
                 },
                 render: function() {
-                    var color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col not_confirmed";
-                    if((this.props.children.confs > 0) && (this.props.children.confs <= 5)) {
-                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col unsafe_confirmed";
-                    } else if(this.props.children.confs >= 6) {
-                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col safe_confirmed";
+                    var color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col card_red";
+                    if((this.props.children.confs > 0) && (this.props.children.confs < 3)) {
+                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col card_orange";
+                    } else if(this.props.children.confs >= 3 && this.props.children.confs < 6) {
+						color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col card_yellow"
+					} else if(this.props.children.confs >= 6) {
+                        color = "demo-card-event mdl-card mdl-cell mdl-shadow--2dp mdl-cell--12-col card_green";
                     }
                     var blockchain_link = "https://blockchain.info/tx/" + this.props.children.hash;
                     var time = (this.props.children.time in window) ? "This transaction has not been confirmed yet!" : this.props.children.time;
@@ -305,7 +370,7 @@
                                         <li className="mdl-list__item">
                                             <span className="mdl-list__item-primary-content">
                                                 <i className="material-icons mdl-list__item-icon">color_lens</i>
-                                                <span className="word_break">The card will be red on 0 Confirmations, yellow on 1+ Confirmations, and green 6+ Confirmations!</span>
+                                                <span className="word_break">The card will be red on 0 Confirmations, orange on 1+ Confirmations, yellow on 3+ Confirmations and green 6+ Confirmations!</span>
                                             </span>
                                         </li>
                                         <li className="mdl-list__item">

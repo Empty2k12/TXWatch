@@ -234,19 +234,22 @@ undefined.mdl-demo section.section--footer {
 undefined.demo-card-event.mdl-card i, .demo-card-event.mdl-card span, .demo-card-event.mdl-card a {
     color: white;
 }
-.demo-card-event.mdl-card.safe_confirmed {
+.demo-card-event.mdl-card.card_green {
     background: #4CAF50;
 }
-.demo-card-event.mdl-card.not_confirmed {
+.demo-card-event.mdl-card.card_red {
     background: #F44336;
 }
-.demo-card-event.mdl-card.unsafe_confirmed {
+.demo-card-event.mdl-card.card_orange {
+    background: #FFC107;
+}
+.demo-card-event.mdl-card.card_yellow {
     background: #FFEB3B;
 }
-.demo-card-event.mdl-card.unsafe_confirmed i, .demo-card-event.mdl-card.unsafe_confirmed span, .demo-card-event.mdl-card.unsafe_confirmed a {
+.demo-card-event.mdl-card.card_orange i, .demo-card-event.mdl-card.card_orange span, .demo-card-event.mdl-card.card_orange a, .demo-card-event.mdl-card.card_yellow i, .demo-card-event.mdl-card.card_yellow span, .demo-card-event.mdl-card.card_yellow a {
     color: black;
 }
-.demo-card-event.mdl-card.unsafe_confirmed > .mdl-card__actions {
+.demo-card-event.mdl-card.card_orange > .mdl-card__actions , .demo-card-event.mdl-card.card_yellow > .mdl-card__actions {
     border-color: rgba(0, 0, 0, 0.3);
 }
 undefined.mdl-list {
@@ -296,4 +299,72 @@ undefined.search button {
     .mdl-cell--12-col, .mdl-cell--12-col-tablet.mdl-cell--12-col-tablet {
         width: calc(100%);
     }
+}
+.mdl-tooltip {
+	will-change: initial !important;
+}
+
+.footer-top {
+    background-color: #374750;
+    color: #fafafa;
+    padding: 48px 64px 64px;
+}
+
+.footer-bottom {
+    background-color: #263239;
+    color: #fafafa;
+    padding: 16px 64px;
+}
+
+.footer-bottom li {
+    margin-left: 32px;
+    margin-right: 0;
+}
+
+.footer-bottom .txwatch-logo {
+    background-color: transparent;
+    background-image: url(https://txwat.ch/images/logo256x256.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 38.4px;
+    margin: 0;
+    opacity: 1;
+    width: 96px;
+}
+
+.footer-top p.line1 {
+    padding-bottom: 4px;
+}
+.footer-top p.line2 {
+    font-weight: 400;
+    padding-top: 4px;
+}
+.footer-top p {
+    font-size: 20px;
+    font-weight: 300;
+    color: #414141;
+    color: #fafafa;
+    margin: 0;
+    padding: 0;
+}
+
+.mdl-layout__header-row {
+    background: #374750;
+}
+
+footer {
+	margin-top: 50px;
+}
+
+.mdl-dialog {
+	width: 630px;
+}
+
+li {
+	outline: 0;
+}
+
+a {
+	cursor: pointer;
 }
