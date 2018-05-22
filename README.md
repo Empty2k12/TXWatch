@@ -2,7 +2,7 @@
 
 TXWatch solves a common problem in the Bitcoin world: Depending on the attached transaction fee a Bitcoin transaction can take multiple hours to be confirmed. TXWatch allows you to add these transaction ID's to a list. When any of the transactions is confirmed or included in a block, a notfication will be displayed and a sound will be played! 
 
-![TXWatch Webservice](https://txwat.ch/images/promo/full_cropped.png "TXWatch Webservice")
+![TXWatch Webservice](https://txwat.ch/screenshot.png "TXWatch Webservice")
 
 ## Features
 * Notification on confirmation change

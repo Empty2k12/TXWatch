@@ -1,0 +1,17 @@
+    {
+        "parser": "babel-eslint",
+        "rules": {
+            "comma-dangle": 0,
+            "no-return-assign": 0,
+            "indent": ["error", 4],
+            "max-len": 0,
+            "no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
+        },
+        "extends": [
+            "airbnb-base",
+            "plugin:react/recommended"
+        ],
+        "env": {
+            "browser": true
+        }
+    }
